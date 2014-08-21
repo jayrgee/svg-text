@@ -1,0 +1,45 @@
+<html lang="en"><head>
+
+  <meta charset="utf-8">
+  <title>SVG Text</title>
+  <link href="style.css" rel="stylesheet" type="text/css" media="all">
+
+</head>
+
+<body>
+
+  <div class="row" id="demo">
+    <svg width="400" height="400" class="parent">
+
+      <svg width="400" height="300" y="100">
+        <defs>
+          <path id="arcPath"
+                d="M80 210
+                   A 150 150, 1, 0, 1, 320 210
+                   L 200 300 Z"></path>
+        </defs>
+
+        <use xlink:href="#arcPath" fill="none" stroke="#fff"  />
+
+        <text font-size="50">
+          <textPath xlink:href="#arcPath">SVG text!</textPath>
+        </text>
+
+       </svg>
+
+       <svg width="400" height="100">
+        <text x="50%" y="50%" font-size="50" text-anchor="middle" dominant-baseline="middle">SVG text!</text>
+      </svg>
+
+    </svg>
+  </div>
+
+  <div class="row">
+    <svg width="400" height="400" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path fill="none" stroke="red" d="M230 230
+         A 45 45, 0, 1, 1, 320 230
+         L 275 230 Z"></path>
+    </svg>
+  </div>
+</body>
+</html>
