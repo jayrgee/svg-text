@@ -1,0 +1,31 @@
+@import url(http://fonts.googleapis.com/css?family=Oswald);
+
+svg text {
+  font-family: "Oswald", sans-serif;
+}
+
+svg.parent {
+  background: #4169E1 url('data:image/svg+xml;,<svg xmlns="http://www.w3.org/2000/svg" fill="%23fff"><pattern id="a" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 0v9h9v1h-9v9h-1v-9h-9v-1h9v-9" opacity=".15"/><path d="M0 19h19v-19h1v20h-20" opacity=".25"/></pattern><rect width="100%" height="100%" fill="%234169E1"/><rect width="100%" height="100%" fill="url(%23a)"/></svg>');
+  margin-left: 100px;
+}
+
+
+body, h1, p {font-family: 'Open Sans',sans-serif;}
+
+div.row {
+    margin: 10px 0;
+    float: left;
+    clear: left;
+}
+
+.input {float: left; padding-left: 25px;}
+
+.input:first-child {padding-left: 0; clear: left;}
+
+.input label,
+.input input,
+.input button {vertical-align: middle;}
+
+.input label {width: 100px; text-align: right; display: inline-block;}
+
+.input input[type='text'] {width: 300px;}
