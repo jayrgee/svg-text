@@ -22,6 +22,46 @@
 
     <div class="row" id="demo"></div>
 
+    <div class="row">
+      <svg  id="svg2" width="500" height="500" version="1.1" xmlns="http://www.w3.org/2000/svg" class="parent">
+        <defs>
+
+          <path id="arcPath0"
+                d="M50 250
+                   A200,200 0 1,1, 450 250
+                   A200,200 0 1,1, 50, 250
+                   Z"></path>
+
+          <path id="arcPath1"
+                d="M80 250
+                   A170,170 0 1,1, 420 250
+                   A170,170 0 1,1, 80, 250
+                   Z"></path>
+
+          <path id="arcPath2"
+                d="M45,250
+                   A200,200 0 1,0 455,250
+                   A200,200 0 1,0 45,250
+                   Z"></path>
+
+        </defs>
+
+        <use xlink:href="#arcPath0" fill="none" stroke="#000" stroke-dasharray="5,10"  />
+        <use xlink:href="#arcPath1" fill="none" stroke="#fff" stroke-dasharray="5,10"  />
+        <use xlink:href="#arcPath2" fill="none" stroke="red" stroke-dasharray="5,10"  />
+
+        <g font-size="45">
+          <text id="txt1">
+            <textPath xlink:href="#arcPath1">p | A b c p</textPath>
+          </text>
+          <text id="txt2">
+            <textPath xlink:href="#arcPath2">| p A b c |</textPath>
+          </text>
+        </g>
+
+      </svg>
+    </div>
+
     <script src="mySvg.js"></script>
     <script src="script.js"></script>
 

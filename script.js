@@ -1,9 +1,10 @@
 /*global mySvg*/
-var eSvg,
-  eSvgT1,
-  eSvgT2,
-  eSvgText1,
-  eSvgText2;
+var eSvg1,
+  eSvg2,
+  eSvg1T1,
+  eSvg1Text1,
+  eSvg2Text1,
+  eSvg2Text2;
 
 (function () {
 
@@ -13,7 +14,11 @@ var eSvg,
 
   function refreshSvgText(svgText, ctl) {
 
-    svgText.textContent = ctl.value;
+    if (svgText.childNodes.length > 1) {
+      svgText.childNodes[1].textContent = ctl.value;
+    } else {
+      svgText.textContent = ctl.value;
+    }
     console.log(new Date(), ctl.value);
 
   }
@@ -33,26 +38,28 @@ var eSvg,
 
   }
 
-  eSvg = mySvg.svgElement({height: 300, width: 400, className: "parent"});
-  eSvgT1 = mySvg.svgElement({height: 100, width: 400, y: 0});
-  eSvgT2 = mySvg.svgElement({height: 200, width: 400, y: 100});
+  eSvg1 = mySvg.svgElement({height: 100, width: 500, className: "parent"});
+  eSvg1T1 = mySvg.svgElement({height: 100, width: "100%", y: 0});
 
-  eSvgText1 = mySvg.svgText();
-  eSvgText2 = mySvg.svgText();
+  eSvg1Text1 = mySvg.svgText();
 
-  initSvgText(eSvgText1);
-  initSvgText(eSvgText2);
+  initSvgText(eSvg1Text1);
 
-  eSvgT1.appendChild(eSvgText1);
-  eSvgT2.appendChild(eSvgText2);
+  eSvg1T1.appendChild(eSvg1Text1);
 
-  eSvg.appendChild(eSvgT1);
-  eSvg.appendChild(eSvgT2);
+  eSvg1.appendChild(eSvg1T1);
 
   eDemo = document.getElementById("demo");
-  eDemo.appendChild(eSvg);
+  eDemo.appendChild(eSvg1);
 
-  addListeners(eSvgText1);
-  addListeners(eSvgText2);
+  eSvg2Text1 = document.getElementById("txt1");
+  eSvg2Text2 = document.getElementById("txt2");
+
+  initSvgText(eSvg2Text1);
+  initSvgText(eSvg2Text2);
+
+  addListeners(eSvg1Text1);
+  addListeners(eSvg2Text1);
+  addListeners(eSvg2Text2);
 
 }());
