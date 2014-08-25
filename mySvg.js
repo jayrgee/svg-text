@@ -2,7 +2,8 @@ var mySvg = (function () {
 
   "use strict";
 
-  var nsSvg = "http://www.w3.org/2000/svg";
+  var nsSvg = "http://www.w3.org/2000/svg",
+    nsXlink = "http://www.w3.org/1999/xlink";
 
   function svgInit(s, options) {
     var o = options || {},
@@ -21,6 +22,26 @@ var mySvg = (function () {
 
     svgInit(s, options);
     return s;
+  }
+
+  function svgGroup(options) {
+    var g = document.createElementNS(nsSvg, "g");
+    return g;
+  }
+
+  function svgTextPath(options) {
+    var t = document.createElementNS(nsSvg, "text"),
+      tp = document.createElementNS(nsSvg, "textPath"),
+      oDefault = {text: 'SVG text!'},
+      o = options || oDefault,
+      text = o.text || oDefault.text,
+      txtnode = document.createTextNode(text);
+
+    tp.setAttributeNS(nsXlink, "href", "#arcPath1");
+    tp.appendChild(txtnode);
+    t.appendChild(tp);
+
+    return t;
   }
 
   function svgText(options) {
@@ -119,11 +140,13 @@ var mySvg = (function () {
   return {
     svgInit: svgInit,
     svgElement: svgElement,
-    svgText: svgText,
+    svgGroup: svgGroup,
     svgCircle: svgCircle,
-    svgDashedCircle: svgDashedCircle,
     svgCircles: svgCircles,
     svgCircles2: svgCircles2,
+    svgDashedCircle: svgDashedCircle,
+    svgText: svgText,
+    svgTextPath: svgTextPath,
     removeGroups: removeGroups
   };
 }());

@@ -4,7 +4,8 @@ var eSvg1,
   eSvg1T1,
   eSvg1Text1,
   eSvg2Text1,
-  eSvg2Text2;
+  eSvg2Text2,
+  arrText;
 
 (function () {
 
@@ -12,15 +13,44 @@ var eSvg1,
 
   var eDemo;
 
+  function removeAllChildren(parent) {
+    var childNodes = parent.childNodes,
+      arrNodes = [],
+      i;
+
+    for (i = 0; i < childNodes.length; i++) {
+      arrNodes.push(childNodes[i]);
+    }
+
+    arrNodes.forEach(function (node) {
+      if (node.parentNode) { node.parentNode.removeChild(node); }
+    });
+  }
+
+  function addTextToThisParent(txt) {
+    var parent = this;
+    console.log(parent.id, txt);
+    parent.appendChild(mySvg.svgTextPath({text: txt}));
+  }
+
+  function refreshTextItems(parentId, textList) {
+    var parent = document.getElementById(parentId);
+
+    removeAllChildren(parent);
+
+    textList.forEach(function (txt) {
+      addTextToThisParent.call(parent, txt);
+    });
+  }
+
   function refreshSvgText(svgText, ctl) {
 
-    if (svgText.childNodes.length > 1) {
-      svgText.childNodes[1].textContent = ctl.value;
-    } else {
-      svgText.textContent = ctl.value;
-    }
-    console.log(new Date(), ctl.value);
+    arrText = ctl.value.trim().split(" ");
+    console.log(arrText);
 
+    svgText.textContent = ctl.value;
+
+    refreshTextItems('txtItems', arrText);
   }
 
   function initSvgText(svgText) {
@@ -44,6 +74,7 @@ var eSvg1,
   eSvg1Text1 = mySvg.svgText();
 
   initSvgText(eSvg1Text1);
+  addListeners(eSvg1Text1);
 
   eSvg1T1.appendChild(eSvg1Text1);
 
@@ -54,12 +85,5 @@ var eSvg1,
 
   eSvg2Text1 = document.getElementById("txt1");
   eSvg2Text2 = document.getElementById("txt2");
-
-  initSvgText(eSvg2Text1);
-  initSvgText(eSvg2Text2);
-
-  addListeners(eSvg1Text1);
-  addListeners(eSvg2Text1);
-  addListeners(eSvg2Text2);
 
 }());
