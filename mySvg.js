@@ -19,6 +19,8 @@ var mySvg = (function () {
 
   function svgElement(options) {
     var s = document.createElementNS(nsSvg, "svg");
+    s.setAttribute("xmlns", nsSvg);
+    s.setAttribute("xmlns:xlink", nsXlink);
 
     svgInit(s, options);
     return s;
@@ -32,12 +34,13 @@ var mySvg = (function () {
   function svgTextPath(options) {
     var t = document.createElementNS(nsSvg, "text"),
       tp = document.createElementNS(nsSvg, "textPath"),
-      oDefault = {text: 'SVG text!'},
+      oDefault = {text: 'SVG text!', pathid: 'myPath'},
       o = options || oDefault,
       text = o.text || oDefault.text,
+      pathid = o.pathid || oDefault.pathid,
       txtnode = document.createTextNode(text);
 
-    tp.setAttributeNS(nsXlink, "href", "#arcPath1");
+    tp.setAttributeNS(nsXlink, "xlink:href", "#" + pathid);
     tp.appendChild(txtnode);
     t.appendChild(tp);
 
@@ -46,16 +49,17 @@ var mySvg = (function () {
 
   function svgText(options) {
     var t = document.createElementNS(nsSvg, "text"),
-      oDefault = {x: "50%", y: "50%", text: 'SVG text!'},
+      oDefault = {x: "50%", y: "50%", text: 'SVG text!', fontSize: 50},
       o = options || oDefault,
       x = o.x || oDefault.x,
       y = o.y || oDefault.y,
+      fontSize = o.fontSize || oDefault.fontSize,
       text = o.text || oDefault.text,
       txtnode = document.createTextNode(text);
 
     t.setAttributeNS(null, 'x', x);
     t.setAttributeNS(null, 'y', y);
-    t.setAttributeNS(null, "font-size", 50);
+    t.setAttributeNS(null, "font-size", fontSize);
     t.setAttributeNS(null, "text-anchor", "middle");
     t.setAttributeNS(null, "dominant-baseline", "middle");
     t.appendChild(txtnode);
