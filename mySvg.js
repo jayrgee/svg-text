@@ -47,6 +47,24 @@ var mySvg = (function () {
     return t;
   }
 
+  function addPathDef(svg, options) {
+    var defs,
+      defsList = svg.getElementsByTagNameNS(nsSvg, 'defs'),
+      path = document.createElementNS(nsSvg, "path");
+
+    if (defsList.length === 0) {
+      defs = document.createElementNS(nsSvg, 'defs');
+    } else {
+      defs = defsList[0];
+    }
+
+    path.setAttributeNS(null, 'id', options.id);
+    path.setAttributeNS(null, 'd', options.d);
+
+    defs.appendChild(path);
+    if (defsList.length === 0) { svg.appendChild(defs); }
+  }
+
   function svgText(options) {
     var t = document.createElementNS(nsSvg, "text"),
       oDefault = {x: "50%", y: "50%", text: 'SVG text!', fontSize: 50},
@@ -141,6 +159,10 @@ var mySvg = (function () {
     });
   }
 
+  function getTextNodes(parent) {
+    return parent.getElementsByTagNameNS('text');
+  }
+
   return {
     svgInit: svgInit,
     svgElement: svgElement,
@@ -151,6 +173,7 @@ var mySvg = (function () {
     svgDashedCircle: svgDashedCircle,
     svgText: svgText,
     svgTextPath: svgTextPath,
+    addPathDef: addPathDef,
     removeGroups: removeGroups
   };
 }());

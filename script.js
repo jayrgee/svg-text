@@ -30,9 +30,8 @@ var eSvg1,
   function addTextToThisParent(txt, options) {
     var parent = this,
       svgText = mySvg.svgTextPath({text: txt, pathid: options.pathid});
-    console.log(parent.id, txt);
+    //console.log(parent.id, txt);
     parent.appendChild(svgText);
-    //console.log(txt, svgText.getComputedTextLength());
   }
 
   function refreshTextItems(parentId, textList) {
@@ -77,9 +76,14 @@ var eSvg1,
   }
 
   function refreshSvgText(svgText, ctl) {
+    var arrTextIn = ctl.value.trim().split(" "),
+      arrText = [];
 
-    arrText = ctl.value.trim().split(" ");
-    console.log(arrText);
+    arrTextIn.forEach(function (txt) {
+      if (txt.trim().length > 0) { arrText.push(txt); }
+    });
+
+    //console.log(arrText);
 
     svgText.textContent = ctl.value;
 
@@ -93,6 +97,11 @@ var eSvg1,
     refreshSvgText(svgText, eText);
   }
 
+  function initSvgRound(svg) {
+    mySvg.addPathDef(svg, {id: "path1", d: "M70 250 A170,170 0 1,1, 430 250 A170,170 0 1,1, 70, 250 Z"});
+    mySvg.addPathDef(svg, {id: "path2", d: "M30,250 A220,220 0 1,0 470,250 A220,220 0 1,0 30,250 Z"});
+  }
+
   function addListeners(svgText) {
 
     var eText = document.getElementById("text-01");
@@ -101,8 +110,12 @@ var eSvg1,
 
   }
 
+  // initialisation
+
   eSvg1 = mySvg.svgElement({height: 100, width: 500, className: "blueprint"});
-  eSvg2 = mySvg.svgElement({height: 100, width: 500, className: "blueprint"});
+  eSvg2 = mySvg.svgElement({height: 500, width: 500, className: "blueprint"});
+
+  initSvgRound(eSvg2);
 
   eSvg1T1 = mySvg.svgElement({height: 100, width: "100%", y: 0});
   eSvg1Text1 = mySvg.svgText({fontSize: 25});
@@ -117,8 +130,5 @@ var eSvg1,
   eDemo = document.getElementById("demo");
   eDemo.appendChild(eSvg1);
   eDemo.appendChild(eSvg2);
-
-  //eSvg2Text1 = document.getElementById("txt1");
-  //eSvg2Text2 = document.getElementById("txt2");
 
 }());
