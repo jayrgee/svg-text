@@ -3,7 +3,47 @@ var mySvg = (function () {
   "use strict";
 
   var nsSvg = "http://www.w3.org/2000/svg",
-    nsXlink = "http://www.w3.org/1999/xlink";
+    nsXlink = "http://www.w3.org/1999/xlink",
+
+    ATTR_MAP = {
+      "className": "class",
+      "fontSize": "font-size",
+      "strokeDasharray": "stroke-dasharray",
+      "svgHref": "xlink:href"
+    },
+
+    NS_MAP = {
+      "svgHref": nsXlink
+    };
+
+  function setAttributes(elem, attributes) {
+    var attribute,
+      name,
+      value;
+
+    for (attribute in attributes) {
+      if (attributes.hasOwnProperty(attribute)) {
+        name = (attribute in ATTR_MAP ? ATTR_MAP[attribute] : attribute);
+        value = attributes[attribute];
+        if (attribute in NS_MAP) {
+          elem.setAttributeNS(NS_MAP[attribute], name, value);
+        } else {
+          elem.setAttribute(name, value);
+        }
+      }
+    }
+  }
+
+  function makeSVG(tag, attributes) {
+    var elem = document.createElementNS(nsSvg, tag);
+
+    if (tag === "svg") { setAttributes(elem, {xmlns: nsSvg, "xmlns:xlink": nsXlink}); }
+
+    if (typeof attributes === "undefined") { return elem; }
+
+    setAttributes(elem, attributes);
+    return elem;
+  }
 
   function svgInit(s, options) {
     var o = options || {},
@@ -19,28 +59,29 @@ var mySvg = (function () {
 
   function svgElement(options) {
     var s = document.createElementNS(nsSvg, "svg");
-    s.setAttribute("xmlns", nsSvg);
-    s.setAttribute("xmlns:xlink", nsXlink);
 
+    setAttributes(s, {"xmlns": nsSvg, "xmlns:xlink": nsXlink});
     svgInit(s, options);
     return s;
   }
 
   function svgGroup(options) {
     var g = document.createElementNS(nsSvg, "g");
+    options = options || {};
+    setAttributes(g, options);
     return g;
   }
 
   function svgTextPath(options) {
-    var t = document.createElementNS(nsSvg, "text"),
-      tp = document.createElementNS(nsSvg, "textPath"),
+    var t = makeSVG("text"),
+      tp = makeSVG("textPath"),
       oDefault = {text: 'SVG text!', pathid: 'myPath'},
       o = options || oDefault,
       text = o.text || oDefault.text,
       pathid = o.pathid || oDefault.pathid,
       txtnode = document.createTextNode(text);
 
-    tp.setAttributeNS(nsXlink, "xlink:href", "#" + pathid);
+    setAttributes(tp, {svgHref: "#" + pathid});
     tp.appendChild(txtnode);
     t.appendChild(tp);
 
@@ -58,8 +99,7 @@ var mySvg = (function () {
       defs = defsList[0];
     }
 
-    path.setAttributeNS(null, 'id', options.id);
-    path.setAttributeNS(null, 'd', options.d);
+    setAttributes(path, options);
 
     defs.appendChild(path);
     if (defsList.length === 0) { svg.appendChild(defs); }
@@ -174,6 +214,7 @@ var mySvg = (function () {
     svgText: svgText,
     svgTextPath: svgTextPath,
     addPathDef: addPathDef,
+    makeSVG: makeSVG,
     removeGroups: removeGroups
   };
 }());

@@ -9,7 +9,6 @@ svg.blueprint {
   margin-left: 100px;
 }
 
-
 body, h1, p {font-family: 'Open Sans',sans-serif;}
 
 div.row {
@@ -26,6 +25,22 @@ div.row {
 .input input,
 .input button {vertical-align: middle;}
 
-.input label {width: 100px; text-align: right; display: inline-block;}
+.input label {
+    width: 100px;
+    text-align: right;
+    display: inline-block;
+    font-size: 1.5em;
+}
 
-.input input[type='text'] {width: 300px;}
+.input input[type='text'] {
+    width: 500px;
+    font-size: 1.5em;
+    border: 1px solid #006;
+    background: #ffc;
+    padding: 5px;
+}
+
+.input input:hover {
+    border: 1px solid #f00;
+    background: #ff6;
+}

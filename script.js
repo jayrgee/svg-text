@@ -1,17 +1,15 @@
 /*global mySvg*/
-var eSvg1,
-  eSvg2,
-  eSvg1T1,
-  eSvg1Text1,
-  eSvg2Text1,
-  eSvg2Text2,
-  arrText;
 
 (function () {
 
   "use strict";
 
-  var eDemo;
+  var eSvg1,
+    eSvg2,
+    svgRound,
+    eSvg1T1,
+    eSvg1Text1,
+    eDemo;
 
   function removeAllChildren(parent) {
     var childNodes = parent.childNodes,
@@ -88,6 +86,7 @@ var eSvg1,
     svgText.textContent = ctl.value;
 
     refreshTextItems('txtItems', arrText);
+    refreshTextItems('text-items', arrText);
   }
 
   function initSvgText(svgText) {
@@ -98,8 +97,17 @@ var eSvg1,
   }
 
   function initSvgRound(svg) {
-    mySvg.addPathDef(svg, {id: "path1", d: "M70 250 A170,170 0 1,1, 430 250 A170,170 0 1,1, 70, 250 Z"});
+
+    // define paths
+    mySvg.addPathDef(svg, {id: "path1", d: "M70,250 A170,170 0 1,1 430,250 A170,170 0 1,1 70,250 Z"});
     mySvg.addPathDef(svg, {id: "path2", d: "M30,250 A220,220 0 1,0 470,250 A220,220 0 1,0 30,250 Z"});
+
+    // display path(s)
+    svg.appendChild(mySvg.makeSVG("use", {svgHref: "#path1", fill: "none", stroke: "#ff6", strokeDasharray: "5,10"}));
+    svg.appendChild(mySvg.makeSVG("use", {svgHref: "#path2", fill: "none", stroke: "red", strokeDasharray: "5,10"}));
+
+    // create container group for text
+    svg.appendChild(mySvg.svgGroup({id: "text-items", fontSize: 24}));
   }
 
   function addListeners(svgText) {
@@ -111,11 +119,15 @@ var eSvg1,
   }
 
   // initialisation
+  eDemo = document.getElementById("demo");
 
   eSvg1 = mySvg.svgElement({height: 100, width: 500, className: "blueprint"});
   eSvg2 = mySvg.svgElement({height: 500, width: 500, className: "blueprint"});
+  svgRound = mySvg.makeSVG("svg", {id: "blahx", height: 100, width: 500, className: "blueprint"});
+  eDemo.appendChild(svgRound);
 
   initSvgRound(eSvg2);
+  eDemo.appendChild(eSvg2);
 
   eSvg1T1 = mySvg.svgElement({height: 100, width: "100%", y: 0});
   eSvg1Text1 = mySvg.svgText({fontSize: 25});
@@ -127,8 +139,6 @@ var eSvg1,
 
   eSvg1.appendChild(eSvg1T1);
 
-  eDemo = document.getElementById("demo");
   eDemo.appendChild(eSvg1);
-  eDemo.appendChild(eSvg2);
 
 }());
