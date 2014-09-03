@@ -86,7 +86,7 @@
     svgText.textContent = ctl.value;
 
     refreshTextItems('txtItems', arrText);
-    refreshTextItems('text-items', arrText);
+    //refreshTextItems('text-items', arrText);
   }
 
   function initSvgText(svgText) {
@@ -96,7 +96,15 @@
     refreshSvgText(svgText, eText);
   }
 
-  function initSvgRound(svg) {
+  function refreshSvgRoundText(elemGroup) {
+    console.log('blah');
+
+  }
+
+  function makeSvgRound(svgAttributes, grpAttributes) {
+
+    var svg = mySvg.makeSVG("svg", svgAttributes),
+      grpSvgText = mySvg.makeSVG("g", grpAttributes);
 
     // define paths
     mySvg.addPathDef(svg, {id: "path1", d: "M70,250 A170,170 0 1,1 430,250 A170,170 0 1,1 70,250 Z"});
@@ -107,7 +115,9 @@
     svg.appendChild(mySvg.makeSVG("use", {svgHref: "#path2", fill: "none", stroke: "red", strokeDasharray: "5,10"}));
 
     // create container group for text
-    svg.appendChild(mySvg.svgGroup({id: "text-items", fontSize: 24}));
+    svg.appendChild(grpSvgText);
+
+    return svg;
   }
 
   function addListeners(svgText) {
@@ -121,22 +131,21 @@
   // initialisation
   eDemo = document.getElementById("demo");
 
-  eSvg1 = mySvg.svgElement({height: 100, width: 500, className: "blueprint"});
-  eSvg2 = mySvg.svgElement({height: 500, width: 500, className: "blueprint"});
-  svgRound = mySvg.makeSVG("svg", {id: "blahx", height: 100, width: 500, className: "blueprint"});
+  svgRound = makeSvgRound({id: "blahblah", height: 500, width: 500, className: "blueprint"}, {id: "text-items", fontSize: 24});
   eDemo.appendChild(svgRound);
 
-  initSvgRound(eSvg2);
-  eDemo.appendChild(eSvg2);
+  //eSvg2 = mySvg.svgElement({height: 500, width: 500, className: "blueprint"});
+  //initSvgRound(eSvg2);
+  //eDemo.appendChild(eSvg2);
 
-  eSvg1T1 = mySvg.svgElement({height: 100, width: "100%", y: 0});
   eSvg1Text1 = mySvg.svgText({fontSize: 25});
-
   initSvgText(eSvg1Text1);
   addListeners(eSvg1Text1);
 
+  eSvg1T1 = mySvg.svgElement({height: 100, width: "100%", y: 0});
   eSvg1T1.appendChild(eSvg1Text1);
 
+  eSvg1 = mySvg.svgElement({height: 100, width: 500, className: "blueprint"});
   eSvg1.appendChild(eSvg1T1);
 
   eDemo.appendChild(eSvg1);

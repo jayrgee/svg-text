@@ -39,9 +39,8 @@ var mySvg = (function () {
 
     if (tag === "svg") { setAttributes(elem, {xmlns: nsSvg, "xmlns:xlink": nsXlink}); }
 
-    if (typeof attributes === "undefined") { return elem; }
+    if (typeof attributes !== "undefined") { setAttributes(elem, attributes); }
 
-    setAttributes(elem, attributes);
     return elem;
   }
 
