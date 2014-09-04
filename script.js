@@ -5,7 +5,6 @@
   "use strict";
 
   var eSvg1,
-    eSvg2,
     svgRound,
     eSvg1T1,
     eSvg1Text1,
@@ -32,9 +31,8 @@
     parent.appendChild(svgText);
   }
 
-  function refreshTextItems(parentId, textList) {
+  function refreshTextItems(parentId, textList, pathId) {
     var parent = document.getElementById(parentId),
-      pathId = 'arcPath1',
       radius = 180,
       textNodes,
       node,
@@ -74,19 +72,14 @@
   }
 
   function refreshSvgText(svgText, ctl) {
-    var arrTextIn = ctl.value.trim().split(" "),
-      arrText = [];
-
-    arrTextIn.forEach(function (txt) {
-      if (txt.trim().length > 0) { arrText.push(txt); }
-    });
+    var arrText = ctl.value.trim().split(/\s+/);
 
     //console.log(arrText);
 
     svgText.textContent = ctl.value;
 
-    refreshTextItems('txtItems', arrText);
-    //refreshTextItems('text-items', arrText);
+    refreshTextItems('txtItems', arrText, 'arcPath1');
+    refreshTextItems('text-items', arrText, 'path1');
   }
 
   function initSvgText(svgText) {
@@ -104,18 +97,23 @@
   function makeSvgRound(svgAttributes, grpAttributes) {
 
     var svg = mySvg.makeSVG("svg", svgAttributes),
-      grpSvgText = mySvg.makeSVG("g", grpAttributes);
+      grpSvgText = mySvg.makeSVG("g", grpAttributes),
+      pathData = [
+        {id: "path1", d: "M70,250 A170,170 0 1,1 430,250 A170,170 0 1,1 70,250 Z", stroke: "#ff6"},
+        {id: "path2", d: "M30,250 A220,220 0 1,0 470,250 A220,220 0 1,0 30,250 Z", stroke: "red"}
+      ];
 
     // define paths
-    mySvg.addPathDef(svg, {id: "path1", d: "M70,250 A170,170 0 1,1 430,250 A170,170 0 1,1 70,250 Z"});
-    mySvg.addPathDef(svg, {id: "path2", d: "M30,250 A220,220 0 1,0 470,250 A220,220 0 1,0 30,250 Z"});
-
-    // display path(s)
-    svg.appendChild(mySvg.makeSVG("use", {svgHref: "#path1", fill: "none", stroke: "#ff6", strokeDasharray: "5,10"}));
-    svg.appendChild(mySvg.makeSVG("use", {svgHref: "#path2", fill: "none", stroke: "red", strokeDasharray: "5,10"}));
+    pathData.forEach(function addPath(data) {
+      mySvg.addPathDef(svg, {id: data.id, d: data.d});
+      // display path
+      svg.appendChild(mySvg.makeSVG("use", {svgHref: "#" + data.id, fill: "none", stroke: data.stroke, strokeDasharray: "5,10"}));
+    });
 
     // create container group for text
     svg.appendChild(grpSvgText);
+
+    pathId = pathData[0].id;
 
     return svg;
   }
@@ -133,10 +131,6 @@
 
   svgRound = makeSvgRound({id: "blahblah", height: 500, width: 500, className: "blueprint"}, {id: "text-items", fontSize: 24});
   eDemo.appendChild(svgRound);
-
-  //eSvg2 = mySvg.svgElement({height: 500, width: 500, className: "blueprint"});
-  //initSvgRound(eSvg2);
-  //eDemo.appendChild(eSvg2);
 
   eSvg1Text1 = mySvg.svgText({fontSize: 25});
   initSvgText(eSvg1Text1);
