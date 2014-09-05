@@ -1,6 +1,5 @@
 /*global mySvg*/
-
-(function () {
+(function init() {
 
   "use strict";
 
@@ -40,6 +39,8 @@
       spcAngle = 0,
       angle,
       i;
+
+    if (parent === null) { return; }
 
     removeAllChildren(parent);
 
@@ -113,7 +114,7 @@
     // create container group for text
     svg.appendChild(grpSvgText);
 
-    pathId = pathData[0].id;
+    //pathId = pathData[0].id;
 
     return svg;
   }
@@ -129,9 +130,6 @@
   // initialisation
   eDemo = document.getElementById("demo");
 
-  svgRound = makeSvgRound({id: "blahblah", height: 500, width: 500, className: "blueprint"}, {id: "text-items", fontSize: 24});
-  eDemo.appendChild(svgRound);
-
   eSvg1Text1 = mySvg.svgText({fontSize: 25});
   initSvgText(eSvg1Text1);
   addListeners(eSvg1Text1);
@@ -141,7 +139,9 @@
 
   eSvg1 = mySvg.svgElement({height: 100, width: 500, className: "blueprint"});
   eSvg1.appendChild(eSvg1T1);
-
   eDemo.appendChild(eSvg1);
+
+  svgRound = makeSvgRound({id: "blah-blah", height: 500, width: 500, className: "blueprint"}, {id: "text-items", fontSize: 24});
+  eDemo.appendChild(svgRound);
 
 }());
