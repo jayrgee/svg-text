@@ -30,15 +30,38 @@
     parent.appendChild(svgText);
   }
 
-  function refreshTextItems(parentId, textList, pathId) {
-    var parent = document.getElementById(parentId),
-      radius = 180,
-      textNodes,
-      node,
+  function refreshTextNodeRotations(textNodes, radius) {
+
+    var node,
       totAngle = 0,
       spcAngle = 0,
       angle,
       i;
+
+    totAngle = 0;
+
+    for (i = 0; i < textNodes.length; i++) {
+      node = textNodes[i];
+      totAngle += (node.getComputedTextLength() * 180) / (radius * Math.PI);
+    }
+
+    spcAngle = (textNodes.length > 0) ? (360 - totAngle) / textNodes.length : 0;
+
+    totAngle = 0;
+    for (i = 0; i < textNodes.length; i++) {
+      node = textNodes[i];
+      node.setAttributeNS(null, 'transform', 'rotate(' + totAngle + ', 250, 250)');
+      angle = ((node.getComputedTextLength() * 180) / (radius * Math.PI));
+      console.log(node.textContent, node.getComputedTextLength(), angle);
+      totAngle += spcAngle + angle;
+    }
+
+  }
+
+  function refreshTextItems(parentId, textList, pathId) {
+    var parent = document.getElementById(parentId),
+      radius = 180,
+      textNodes;
 
     if (parent === null) { return; }
 
@@ -52,24 +75,7 @@
 
     textNodes = parent.getElementsByTagName('text');
 
-    totAngle = 0;
-
-    if (textNodes.length > 0) {
-      for (i = 0; i < textNodes.length; i++) {
-        node = textNodes[i];
-        totAngle += (node.getComputedTextLength() * 180) / (radius * Math.PI);
-      }
-      spcAngle = (360 - totAngle) / textNodes.length;
-    }
-
-    totAngle = 0;
-    for (i = 0; i < textNodes.length; i++) {
-      node = textNodes[i];
-      node.setAttributeNS(null, 'transform', 'rotate(' + totAngle + ', 250, 250)');
-      angle = ((node.getComputedTextLength() * 180) / (radius * Math.PI));
-      console.log(node.textContent, node.getComputedTextLength(), angle);
-      totAngle += spcAngle + angle;
-    }
+    refreshTextNodeRotations(textNodes, radius);
   }
 
   function refreshSvgText(svgText, ctl) {
