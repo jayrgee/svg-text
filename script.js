@@ -101,13 +101,29 @@
 
   }
 
+  function getPathDataInner(r, cx, cy) {
+    var moveTo = 'M' + (cx - r) + ',' + cy,
+      arc1 = ' A' + r + ',' + r + ' 0 1,1 ' + (cx + r) + ',' + cy,
+      arc2 = ' A' + r + ',' + r + ' 0 1,1 ' + (cx - r) + ',' + cy;
+
+    return moveTo + arc1 + arc2 + ' Z';
+  }
+
+  function getPathDataOuter(r, cx, cy) {
+    var moveTo = 'M' + (cx - r) + ',' + cy,
+      arc1 = ' A' + r + ',' + r + ' 0 1,0 ' + (cx + r) + ',' + cy,
+      arc2 = ' A' + r + ',' + r + ' 0 1,0 ' + (cx - r) + ',' + cy;
+
+    return moveTo + arc1 + arc2 + ' Z';
+  }
+
   function makeSvgRound(svgAttributes, grpAttributes) {
 
     var svg = mySvg.makeSVG("svg", svgAttributes),
       grpSvgText = mySvg.makeSVG("g", grpAttributes),
       pathData = [
-        {id: "path1", d: "M70,250 A170,170 0 1,1 430,250 A170,170 0 1,1 70,250 Z", stroke: "#ff6"},
-        {id: "path2", d: "M30,250 A220,220 0 1,0 470,250 A220,220 0 1,0 30,250 Z", stroke: "red"}
+        {id: "path2", d: getPathDataInner(180, 250, 250), stroke: "#ff6"},
+        {id: "path1", d: getPathDataOuter(220, 250, 250), stroke: "red"}
       ];
 
     // define paths
